@@ -1,6 +1,29 @@
 // Sidebar Navigation - Active Section Highlighting
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 const sections = document.querySelectorAll('section[id]');
+const pageLanguage = document.documentElement.lang === 'en' ? 'en' : 'fr';
+const localizedText = {
+    fr: {
+        resourcesTitle: '📚 Ressources et publications',
+        projectSkills: 'Compétences :',
+        projectResources: '📚 Ressources associées',
+        contactEmailSubject: 'Message depuis tomjanvier.com - ',
+        contactEmailName: 'Nom',
+        contactEmailMessage: 'Message'
+    },
+    en: {
+        resourcesTitle: '📚 Resources and publications',
+        projectSkills: 'Skills:',
+        projectResources: '📚 Related resources',
+        contactEmailSubject: 'Message from tomjanvier.com - ',
+        contactEmailName: 'Name',
+        contactEmailMessage: 'Message'
+    }
+};
+
+function getLocalizedText(key) {
+    return localizedText[pageLanguage]?.[key] || localizedText.fr[key];
+}
 
 // Scroll vers le haut
 function scrollToTop() {
@@ -23,6 +46,14 @@ function highlightActiveSection() {
         link.classList.remove('active');
         if (link.getAttribute('data-section') === currentSection) {
             link.classList.add('active');
+            const sidebarMenu = document.querySelector('.sidebar-menu');
+            if (sidebarMenu) {
+                const linkRect = link.getBoundingClientRect();
+                const menuRect = sidebarMenu.getBoundingClientRect();
+                if (linkRect.top < menuRect.top || linkRect.bottom > menuRect.bottom) {
+                    link.scrollIntoView({ block: 'nearest' });
+                }
+            }
         }
     });
 }
@@ -136,15 +167,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Gestion du modal de contact
 const contactModal = document.getElementById('contactModal');
-const openContactFormBtn = document.getElementById('openContactForm');
+const openContactFormBtns = document.querySelectorAll('.js-contact-form-trigger');
 const closeContactModalBtn = document.getElementById('closeContactModal');
 const cancelContactFormBtn = document.getElementById('cancelContactForm');
 const contactForm = document.getElementById('contactForm');
 
 // Ouvrir le modal
-openContactFormBtn.addEventListener('click', () => {
-    contactModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+openContactFormBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
 });
 
 // Fermer le modal
@@ -181,7 +214,7 @@ contactForm.addEventListener('submit', (e) => {
     const message = document.getElementById('contactMessage').value;
     
     // Créer le lien mailto
-    const mailtoLink = `mailto:contact@tomjanvier.com?subject=${encodeURIComponent('Message depuis tomjanvier.com - ' + subject)}&body=${encodeURIComponent(`Nom: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+    const mailtoLink = `mailto:contact@tomjanvier.com?subject=${encodeURIComponent(getLocalizedText('contactEmailSubject') + subject)}&body=${encodeURIComponent(`${getLocalizedText('contactEmailName')}: ${name}\nEmail: ${email}\n\n${getLocalizedText('contactEmailMessage')}:\n${message}`)}`;
     
     // Ouvrir le client email
     window.location.href = mailtoLink;
@@ -209,7 +242,7 @@ function renderResources() {
     const focus2030Container = document.getElementById('resources-focus2030');
     if (focus2030Container && RESOURCES.focus2030 && RESOURCES.focus2030.length > 0) {
         const html = `
-            <h4 class="resources-title">📚 Ressources et publications</h4>
+            <h4 class="resources-title">${getLocalizedText('resourcesTitle')}</h4>
             <ul class="resources-list">
                 ${RESOURCES.focus2030.map(resource => `
                     <li class="resource-item">
@@ -229,7 +262,7 @@ function renderResources() {
     const coordinationSudContainer = document.getElementById('resources-coordinationsud');
     if (coordinationSudContainer && RESOURCES.coordinationSud && RESOURCES.coordinationSud.length > 0) {
         const html = `
-            <h4 class="resources-title">📚 Ressources et publications</h4>
+            <h4 class="resources-title">${getLocalizedText('resourcesTitle')}</h4>
             <ul class="resources-list">
                 ${RESOURCES.coordinationSud.map(resource => `
                     <li class="resource-item">
@@ -249,7 +282,7 @@ function renderResources() {
     const mouvementEuropeenContainer = document.getElementById('resources-mouvementeuropeen');
     if (mouvementEuropeenContainer && RESOURCES.mouvementEuropeen && RESOURCES.mouvementEuropeen.length > 0) {
         const html = `
-            <h4 class="resources-title">📚 Ressources et publications</h4>
+            <h4 class="resources-title">${getLocalizedText('resourcesTitle')}</h4>
             <ul class="resources-list">
                 ${RESOURCES.mouvementEuropeen.map(resource => `
                     <li class="resource-item">
@@ -269,7 +302,7 @@ function renderResources() {
     const amnestyContainer = document.getElementById('resources-amnesty');
     if (amnestyContainer && RESOURCES.amnestyInternational && RESOURCES.amnestyInternational.length > 0) {
         const html = `
-            <h4 class="resources-title">📚 Ressources et publications</h4>
+            <h4 class="resources-title">${getLocalizedText('resourcesTitle')}</h4>
             <ul class="resources-list">
                 ${RESOURCES.amnestyInternational.map(resource => `
                     <li class="resource-item">
@@ -304,7 +337,7 @@ function renderProjects() {
                 <p class="project-description">${project.description.replace(/\n/g, '<br>')}</p>
                 ${project.skills && project.skills.length > 0 ? `
                     <div class="project-skills">
-                        <h4>Compétences :</h4>
+                        <h4>${getLocalizedText('projectSkills')}</h4>
                         <div class="skills-tags">
                             ${project.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
                         </div>
@@ -312,7 +345,7 @@ function renderProjects() {
                 ` : ''}
                 ${project.resources && project.resources.length > 0 ? `
                     <div class="project-resources">
-                        <h4 class="resources-title">📚 Ressources associées</h4>
+                        <h4 class="resources-title">${getLocalizedText('projectResources')}</h4>
                         <ul class="resources-list">
                             ${project.resources.map(resource => `
                                 <li class="resource-item">
@@ -336,3 +369,53 @@ function renderProjects() {
 // Appeler la fonction de rendu des projets au chargement
 document.addEventListener('DOMContentLoaded', renderProjects);
 
+// Gestion de la bannière de cookies et Google Analytics
+const cookieBanner = document.getElementById('cookieBanner');
+const acceptCookiesBtn = document.getElementById('acceptCookies');
+const rejectCookiesBtn = document.getElementById('rejectCookies');
+const COOKIE_KEY = 'cookieConsent';
+
+function loadGoogleAnalytics() {
+    if (document.getElementById('gaScript')) return;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4VLTXE92HT';
+    script.id = 'gaScript';
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        window.dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-4VLTXE92HT');
+}
+
+function setCookieConsent(value) {
+    localStorage.setItem(COOKIE_KEY, value);
+    if (cookieBanner) {
+        cookieBanner.classList.remove('active');
+    }
+}
+
+if (cookieBanner) {
+    const savedConsent = localStorage.getItem(COOKIE_KEY);
+    if (savedConsent === 'accepted') {
+        loadGoogleAnalytics();
+    } else if (!savedConsent) {
+        cookieBanner.classList.add('active');
+    }
+
+    if (acceptCookiesBtn) {
+        acceptCookiesBtn.addEventListener('click', () => {
+            setCookieConsent('accepted');
+            loadGoogleAnalytics();
+        });
+    }
+
+    if (rejectCookiesBtn) {
+        rejectCookiesBtn.addEventListener('click', () => {
+            setCookieConsent('rejected');
+        });
+    }
+}
