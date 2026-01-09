@@ -183,11 +183,11 @@ body {
 /* Hero Section */
 /* Hero Section */
 .hero {
-    min-height: 70vh;
+    min-height: 60vh;
     display: flex; /* Indispensable pour centrer */
     align-items: center; 
     justify-content: center;
-    padding: 60px 20px;
+    padding: 40px 20px;
     background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-alt) 100%);
 }
 
@@ -641,6 +641,8 @@ body {
     border-top: 1px solid var(--border-color);
     padding: 40px 20px;
     text-align: center;
+    margin-left: 250px;
+    width: calc(100% - 250px);
 }
 
 .footer p {
@@ -650,6 +652,48 @@ body {
 
 .footer-subtitle {
     font-size: 0.9rem;
+}
+
+.footer-language {
+    margin-top: 20px;
+}
+
+.cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    z-index: 1100;
+    display: none;
+    justify-content: center;
+}
+
+.cookie-banner.active {
+    display: flex;
+}
+
+.cookie-banner-content {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 24px;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cookie-text {
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* Animations */
@@ -930,8 +974,7 @@ body {
 
 .contact-form-btn {
     cursor: pointer;
-    border: none;
-    background: transparent;
+    font: inherit;
 }
 
 .contact-form-btn:hover {
@@ -1325,4 +1368,3 @@ body {
         font-size: 0.85rem;
     }
 }
-
