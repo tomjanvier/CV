@@ -9,32 +9,3 @@ ModPagespeedRewriteLevel PassThrough
 ModPagespeedEnableFilters add_head,canonicalize_javascript_libraries,collapse_whitespace,combine_css,combine_javascript,combine_heads,convert_meta_tags,dedup_inlined_images,elide_attributes,extend_cache,recompress_images,flatten_css_imports,hint_preload_subresources,inline_css,inline_javascript,lazyload_images,rewrite_javascript,move_css_above_scripts,move_css_to_head,insert_dns_prefetch,remove_comments,remove_quotes,rewrite_images,strip_image_meta_data,sprite_images
 </IfModule>
 # o2switch pagespeed end / DO NOT REMOVE OR EDIT
-
-### DÉBUT OPTIMISATION CACHE & HEADERS ###
-
-# 1. Définir les durées de mise en cache (Expires Headers)
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresDefault "access plus 1 month"
-    
-    # Images (Très long pour Google)
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/webp "access plus 1 year"
-    ExpiresByType image/x-icon "access plus 1 year"
-    
-    # CSS et JS
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-</IfModule>
-
-# 2. Forcer le Cache-Control header
-<IfModule mod_headers.c>
-    <FilesMatch "\.(jpg|jpeg|png|webp|ico|css|js)$">
-        Header set Cache-Control "max-age=31536000, public"
-    </FilesMatch>
-</IfModule>
-
-### FIN OPTIMISATION ###
-
