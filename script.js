@@ -1,6 +1,7 @@
 // Sidebar Navigation - Active Section Highlighting
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 const sections = document.querySelectorAll('section[id]');
+const sidebar = document.getElementById('sidebar');
 const pageLanguage = document.documentElement.lang === 'en' ? 'en' : 'fr';
 const localizedText = {
     fr: {
@@ -30,14 +31,31 @@ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function getHeaderOffset() {
+    if (!sidebar) return 0;
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        return sidebar.offsetHeight;
+    }
+    return 0;
+}
+
+function scrollToSection(targetSection) {
+    if (!targetSection) return;
+    const offset = getHeaderOffset();
+    const top = targetSection.getBoundingClientRect().top + window.pageYOffset - offset - 10;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+}
+
 // Highlight active section in sidebar
 function highlightActiveSection() {
     let currentSection = '';
+    const offset = getHeaderOffset();
+    const scrollPosition = window.pageYOffset + offset + 10;
     
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
-        if (window.pageYOffset >= sectionTop - 200) {
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             currentSection = section.getAttribute('id');
         }
     });
@@ -67,9 +85,7 @@ sidebarLinks.forEach(link => {
         e.preventDefault();
         const targetId = link.getAttribute('href').substring(1);
         const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        scrollToSection(targetSection);
     });
 });
 
@@ -149,18 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Smooth scroll pour les liens d'ancrage
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]:not(.sidebar-link)').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         if (href !== '#' && href !== '') {
             e.preventDefault();
             const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            scrollToSection(target);
         }
     });
 });
@@ -395,6 +406,7 @@ function setCookieConsent(value) {
     localStorage.setItem(COOKIE_KEY, value);
     if (cookieBanner) {
         cookieBanner.classList.remove('active');
+        document.body.classList.remove('has-cookie-banner');
     }
 }
 
@@ -404,6 +416,7 @@ if (cookieBanner) {
         loadGoogleAnalytics();
     } else if (!savedConsent) {
         cookieBanner.classList.add('active');
+        document.body.classList.add('has-cookie-banner');
     }
 
     if (acceptCookiesBtn) {
