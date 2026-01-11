@@ -658,6 +658,34 @@ body {
     margin-top: 20px;
 }
 
+.language-switch {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1150;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.language-switch:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+body.has-cookie-banner .language-switch {
+    bottom: 110px;
+}
+
 .cookie-banner {
     position: fixed;
     bottom: 20px;
@@ -1349,6 +1377,18 @@ body {
     .main-content {
         margin-left: 0;
         margin-top: 120px;
+    }
+
+    .language-switch {
+        width: 46px;
+        height: 46px;
+        right: 16px;
+        bottom: 16px;
+        font-size: 0.9rem;
+    }
+
+    body.has-cookie-banner .language-switch {
+        bottom: 100px;
     }
     
     .project-card {
