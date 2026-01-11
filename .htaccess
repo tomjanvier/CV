@@ -1,6 +1,7 @@
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 # o2switch pagespeed start / DO NOT REMOVE OR EDIT
 <IfModule pagespeed_module>
 ModPagespeed on
@@ -8,17 +9,10 @@ ModPagespeedRewriteLevel PassThrough
 ModPagespeedEnableFilters add_head,canonicalize_javascript_libraries,collapse_whitespace,combine_css,combine_javascript,combine_heads,convert_meta_tags,dedup_inlined_images,elide_attributes,extend_cache,recompress_images,flatten_css_imports,hint_preload_subresources,inline_css,inline_javascript,lazyload_images,rewrite_javascript,move_css_above_scripts,move_css_to_head,insert_dns_prefetch,remove_comments,remove_quotes,rewrite_images,strip_image_meta_data,sprite_images
 </IfModule>
 # o2switch pagespeed end / DO NOT REMOVE OR EDIT
-### DÉBUT OPTIMISATION LSCache & HEADERS ###
 
-# 1. Activer le moteur de cache LiteSpeed
-<IfModule Litespeed>
-    CacheEnable public /
-    RewriteEngine On
-    RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
-    RewriteRule .* - [E=Cache-Control:max-age=3600]
-</IfModule>
+### DÉBUT OPTIMISATION CACHE & HEADERS ###
 
-# 2. Définir les durées de mise en cache (Expires Headers)
+# 1. Définir les durées de mise en cache (Expires Headers)
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
@@ -35,7 +29,7 @@ ModPagespeedEnableFilters add_head,canonicalize_javascript_libraries,collapse_wh
     ExpiresByType application/javascript "access plus 1 month"
 </IfModule>
 
-# 3. Forcer le Cache-Control header
+# 2. Forcer le Cache-Control header
 <IfModule mod_headers.c>
     <FilesMatch "\.(jpg|jpeg|png|webp|ico|css|js)$">
         Header set Cache-Control "max-age=31536000, public"
@@ -43,26 +37,4 @@ ModPagespeedEnableFilters add_head,canonicalize_javascript_libraries,collapse_wh
 </IfModule>
 
 ### FIN OPTIMISATION ###
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
