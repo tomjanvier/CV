@@ -1,37 +1,59 @@
 /* Variables CSS pour les couleurs et thèmes */
 :root {
-    --primary-color: #2C5F8D;
-    --primary-light: #3A7AB0;
-    --primary-dark: #1E4460;
+    --primary-color: #295A87;
+    --primary-light: #3E74A6;
+    --primary-dark: #1C3F60;
     --secondary-color: #4A9B7F;
-    --secondary-light: #5DB599;
-    --secondary-dark: #3A7D66;
+    --secondary-light: #63B39A;
+    --secondary-dark: #3B7C66;
+    --accent-color: #D9A441;
+    --accent-soft: rgba(217, 164, 65, 0.18);
     --bg-color: #FFFFFF;
     --bg-alt: #F8F9FA;
     --text-color: #2C3E50;
     --text-muted: #6C757D;
     --border-color: #DEE2E6;
     --card-bg: #FFFFFF;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
-    --transition: all 0.3s ease;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-hover: 0 16px 40px rgba(15, 23, 42, 0.12);
+    --transition: all 0.25s ease;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 [data-theme="dark"] {
     --primary-color: #4A8FBF;
-    --primary-light: #5DA3D3;
+    --primary-light: #6AA7D3;
     --primary-dark: #3A7AB0;
     --secondary-color: #5DB599;
     --secondary-light: #70C9AD;
     --secondary-dark: #4A9B7F;
+    --accent-color: #E6B351;
+    --accent-soft: rgba(230, 179, 81, 0.2);
     --bg-color: #1A1A1A;
     --bg-alt: #242424;
     --text-color: #E8E8E8;
     --text-muted: #A0A0A0;
     --border-color: #3A3A3A;
     --card-bg: #2A2A2A;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
 /* Reset et styles de base */
@@ -46,7 +68,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -214,6 +236,8 @@ body {
     justify-content: center;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     overflow: hidden;       /* Coupe tout ce qui dépasse */
+    box-shadow: 0 20px 40px rgba(41, 90, 135, 0.25);
+    animation: float 6s ease-in-out infinite;
 }
 
 .profile-photo {
@@ -245,6 +269,15 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center; 
+}
+
+.hero-kicker {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    margin-bottom: 12px;
 }
 
 /* Buttons */
@@ -326,6 +359,7 @@ body {
     height: 4px;
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(41, 90, 135, 0.25);
 }
 
 /* Cards */
@@ -336,6 +370,7 @@ body {
     box-shadow: var(--shadow);
     transition: var(--transition);
     border: 1px solid var(--border-color);
+    backdrop-filter: blur(6px);
 }
 
 .card:hover {
@@ -501,9 +536,9 @@ body {
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
-    background-color: var(--bg-alt);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--accent-soft);
+    color: var(--accent-color);
+    border: 1px solid transparent;
 }
 
 .badge-current {
@@ -1033,13 +1068,13 @@ body {
     align-items: center;
     justify-content: center;
     padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     overflow: hidden;
 }
 
 [data-theme="dark"] .org-logo {
     background: var(--bg-alt);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow);
 }
 
 .org-logo img {
