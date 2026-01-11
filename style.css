@@ -114,10 +114,6 @@ body {
   text-decoration: none;
   cursor: pointer;
   transition: var(--transition);
-  background-image: url("profile-photo.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .sidebar-logo:hover {
@@ -230,22 +226,15 @@ body {
   flex-shrink: 0;
 }
 
-/* Le rond de l'avatar corrigé */
-
 .avatar-circle {
-  width: 200px; /* Taille du rond */
+  width: 200px;
   height: 200px;
   border-radius: 50%;
-  position: relative; /* INDISPENSABLE : Définit le cadre pour l'image */
+  position: relative;
   display: flex;
-  align-items: center; /* Centre le texte TJ */
+  align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
-  overflow: hidden; /* Coupe tout ce qui dépasse */
+  overflow: hidden;
   box-shadow: 0 20px 40px rgba(41, 90, 135, 0.25);
   animation: float 6s ease-in-out infinite;
 }
@@ -258,18 +247,6 @@ body {
   height: 100%; /* Force l'image à prendre toute la hauteur */
   object-fit: cover; /* Remplit le rond sans déformer la tête */
   z-index: 10; /* Mettre un chiffre élevé pour être SÛR qu'elle est devant */
-}
-
-.initials-text {
-  z-index: 1; /* Chiffre bas = derrière l'image */
-  color: white;
-  font-size: 4rem;
-}
-
-/* Les initiales (cachées derrière la photo) */
-.initials-text {
-  position: relative;
-  z-index: 1; /* Reste DERRIÈRE l'image */
 }
 
 .hero-text {
